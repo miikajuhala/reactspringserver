@@ -1,0 +1,21 @@
+<h1>Create new user gang gang skkrrrrt po popopopop</h1>
+<div>
+ <form th:object="${user}" th:action="@{/saveuser}" action="#" method="post">
+ 
+ 
+ 
+ <label for="username">Username</label>
+ <input type="text" id="username" th:field="*{Username}" />
+ 
+ <label for="passwordHash">Password</label>
+ <input type="text" id="passwordHash" th:field="*{PasswordHash}" />
+ 
+<label for="role">Role</label>
+ <input  type="text" id="role" th:field="*{Role}" />
+ 
+ <input type="submit" value="Tallenna"></input>
+ 
+
+ 
+ </form>
+ </div>

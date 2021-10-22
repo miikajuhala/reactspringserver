@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+</head>
+
+<body>
+<table class="table table-striped">
+<tr>
+<th>Name</th>
+<th>Role</th>
+
+
+		<tr th:each = "useri : ${users}">
+		    <td th:text="${useri.username} + ' ' + ${useri.role}"></td>				  		
+		</tr>
+
+</table>
+
+
+
+
+
+
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+</body>
+</html>
