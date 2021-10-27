@@ -35,5 +35,7 @@ private UserRepository urepository;
 public @ResponseBody List<User> Rest() {	
     return urepository.findAll(); 
 }  
+
+
 	
 }

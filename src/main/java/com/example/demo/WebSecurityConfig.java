@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 import com.example.demo.web.UserDetailServiceImpl;
 
 
@@ -24,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	 http
     	 .authorizeRequests()
-    	 .antMatchers("/signup", "/api/users").permitAll()
+    	 .antMatchers("/signup", "/api/users", "/loginpage", "/saveuser").permitAll()
     	 .anyRequest().authenticated()
     	 .and()
     	 .formLogin()
