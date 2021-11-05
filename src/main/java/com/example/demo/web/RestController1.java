@@ -1,17 +1,26 @@
 package com.example.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import java.nio.charset.StandardCharsets;
+import java.rmi.ServerException;
 import java.util.List;
 
 
@@ -28,14 +37,64 @@ public class RestController1 {
 	 
 @Autowired
 private UserRepository urepository;
-	
+
+@Autowired
+private SpotRepository srepository;
 	
 	
 @RequestMapping(value="/users", method = RequestMethod.GET)
 public @ResponseBody List<User> Rest() {	
     return urepository.findAll(); 
 }  
+//tähän vielä security muutos että ei palauta usenameja clientiin
+@RequestMapping(value="/spots", method = RequestMethod.GET)
+public @ResponseBody List<Spot> RestSpot() {	
+    return srepository.findAll(); 
+}  
+//chekki onko kyseinen käyttäjä
+@RequestMapping(value="/spots/myspots/{username}", method = RequestMethod.GET)
+public @ResponseBody List<Spot> RestMySpots(@PathVariable("username") String username) {	
+    return srepository.findBySpotusername(username); 
+}  
 
 
-	
+
+@PostMapping(value="/spots/add")
+public ResponseEntity<Spot> create(@RequestBody Spot newSpot) throws ServerException {
+    Spot spot = srepository.save(newSpot);
+    if (spot == null) {
+        throw new ServerException(null);
+    } else {
+        return new ResponseEntity<>(spot, HttpStatus.CREATED);
+    }
 }
+
+@PutMapping("spots/newres/{id}")
+public ResponseEntity<Spot> updateSpot(@PathVariable(value = "id") Long spotId,
+     @RequestBody Spot spotDetails) throws ResourceNotFoundException {
+    Spot spot = srepository.findById(spotId)
+    .orElseThrow(() -> new ResourceNotFoundException("Spot not found for this id :: " + spotId));
+
+    spot.setReserved(spotDetails.getReserved());
+    spot.setPremium(spotDetails.getPremium());
+    spot.setSpotusername(spotDetails.getSpotusername());
+    final Spot updatedSpot = srepository.save(spot);
+    return ResponseEntity.ok(updatedSpot);
+}
+
+//tähän myös security että onko kyseinen käyttäjä
+@PutMapping("spots/delres/{id}")
+public ResponseEntity<Spot> delSpot(@PathVariable(value = "id") Long spotId,
+     @RequestBody Spot spotDetails) throws ResourceNotFoundException {
+    Spot spot = srepository.findById(spotId)
+    .orElseThrow(() -> new ResourceNotFoundException("Spot not found for this id :: " + spotId));
+
+    spot.setReserved(false);
+    spot.setSpotusername(null);
+    final Spot updatedSpot = srepository.save(spot);
+    return ResponseEntity.ok(updatedSpot);
+}
+
+
+
+} 

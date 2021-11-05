@@ -24,17 +24,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	 http
-    	 .authorizeRequests()
-    	 .antMatchers("/signup", "/api/users", "/loginpage", "/saveuser").permitAll()
+    	 .csrf().disable()
+    	 .authorizeRequests() //TÄSSÄ TÄYTYY MUISTAA ETTÄ api/ on avoimia vaikka ottais pois tästä 
+    	 //täytyy tehdä erillinen tarkastus restconrolleriin
+    	 .antMatchers("/signup", "/api/users", "/loginpage", "/saveuser" ,"/api/spots", "/api","/api/spots/add","/api/spots/newres/*","/api/spots/myspots/*","/api/spots/delres/*").permitAll()
     	 .anyRequest().authenticated()
     	 .and()
     	 .formLogin()
     	 .loginPage("/loginpage")
-    	 .defaultSuccessUrl("/index", true)
+    	 .defaultSuccessUrl("/", true)
     	 .permitAll();
     	}
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {  
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 

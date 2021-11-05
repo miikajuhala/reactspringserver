@@ -1,10 +1,13 @@
 package com.example.demo.web;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,17 +28,31 @@ private String passwordHash;
 
 @Column(name = "role", nullable = false)
 private String role;
+
+@OneToMany
+private List<Spot> spots;
 	
 	
+
+
+
 			public User() {
 			}
 
 
 			public User(String username, String passwordHash, String role) {
-			super();
+				super();
 				this.username = username;
 				this.passwordHash = passwordHash;
 				this.role = role;
+			}
+			
+			public User(String username, String passwordHash, String role, List<Spot> spots) {
+				super();
+				this.username = username;
+				this.passwordHash = passwordHash;
+				this.role = role;
+				this.spots = spots;
 			}
 			
 			
@@ -71,6 +88,16 @@ public String getRole() {
 public void setRole(String role) {
 	this.role = role;
 }
+
+public List<Spot> getSpots() {
+	return spots;
+}
+
+
+public void setSpots(List<Spot> spots) {
+	this.spots = spots;
+}
+
 
 
 
