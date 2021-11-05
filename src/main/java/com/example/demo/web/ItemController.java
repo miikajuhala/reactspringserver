@@ -71,7 +71,16 @@ public class ItemController {
 	 model.addAttribute("user", new User());
      return "signup";
  }
- 
+	
+ @Controller
+public class SecurityController {
+
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String currentUserName(Principal principal) {
+     return principal.getName();
+    }
+}
  
 	
 	
