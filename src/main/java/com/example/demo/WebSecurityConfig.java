@@ -27,12 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	 .csrf().disable()
     	 .authorizeRequests() //TÄSSÄ TÄYTYY MUISTAA ETTÄ api/ on avoimia vaikka ottais pois tästä 
     	 //täytyy tehdä erillinen tarkastus restconrolleriin
-    	 .antMatchers("/signup", "/api/users", "/loginpage", "/saveuser" ,"/api/spots", "/api","/api/spots/add","/api/spots/newres/*","/api/spots/myspots/*","/api/spots/delres/*").permitAll()
+    	 .antMatchers("/signup", "/api/users", "/loginpage", "/saveuser" ,"/api/spots", "/api","/api/spots/add","/api/spots/newres/*","/api/spots/myspots/*","/api/spots/delres/*","/username").permitAll()
     	 .anyRequest().authenticated()
     	 .and()
     	 .formLogin()
     	 .loginPage("/loginpage")
-    	 .defaultSuccessUrl("/", true)
+    	 .defaultSuccessUrl("/index", true)
     	 .permitAll();
     	}
     @Autowired

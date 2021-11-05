@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.List;
 
 
@@ -49,7 +50,7 @@ public class ItemController {
 	
  @RequestMapping(value = "/saveuser", method = RequestMethod.POST)
  public String save(User user){
-	 System.out.println("VITTU SAATANA_____________--------------------______________-----------");
+	 System.out.println("_____________--------------------______________-----------");
 	 String oldpass= user.getPasswordHash();
 	 System.out.println(oldpass+"OLDPASS______________________________");
 	
@@ -71,6 +72,16 @@ public class ItemController {
 	 model.addAttribute("user", new User());
      return "signup";
  }
+
+@Controller
+public class SecurityController {
+
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String currentUserName(Principal principal) {
+     return principal.getName();
+    }
+}
  
  
 	

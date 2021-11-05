@@ -45,15 +45,15 @@ public class KouluprojuApplication {
 				Spot spot4 = new Spot(false,true);
 				
 				
-				spot1.setSpotusername(urepository.findByUsername("user").getUsername());
-				spot2.setSpotusername(urepository.findByUsername("admin").getUsername());
-				spot3.setSpotusername(urepository.findByUsername("admin").getUsername());
-				spot4.setSpotusername(urepository.findByUsername("user").getUsername());
+				//spot1.setSpotusername(urepository.findByUsername("user").getUsername());
+				//spot2.setSpotusername(urepository.findByUsername("admin").getUsername());
+				//spot3.setSpotusername(urepository.findByUsername("admin").getUsername());
+				//spot4.setSpotusername(urepository.findByUsername("user").getUsername());
 				
-				srepository.save(spot1);
-				srepository.save(spot2);
-				srepository.save(spot3);
-				srepository.save(spot4);
+				//srepository.save(spot1);
+				//srepository.save(spot2);
+				//srepository.save(spot3);
+				//srepository.save(spot4);
 	
 				System.out.println("________-------______------_______----"+srepository.findAll());
 				
