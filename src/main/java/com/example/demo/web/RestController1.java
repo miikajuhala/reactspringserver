@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
 import java.rmi.ServerException;
+import java.security.Principal;
 import java.util.List;
 
 
@@ -52,9 +54,10 @@ public @ResponseBody List<Spot> RestSpot() {
     return srepository.findAll(); 
 }  
 //chekki onko kyseinen käyttäjä
+//haetaan kaikki spotit missä kyseinen useri
 @RequestMapping(value="/spots/myspots/{username}", method = RequestMethod.GET)
 public @ResponseBody List<Spot> RestMySpots(@PathVariable("username") String username) {	
-    return srepository.findBySpotusername(username); 
+    return srepository.findBySpotuser(urepository.findByUsername(username)); 
 }  
 
 
@@ -75,9 +78,12 @@ public ResponseEntity<Spot> updateSpot(@PathVariable(value = "id") Long spotId,
     Spot spot = srepository.findById(spotId)
     .orElseThrow(() -> new ResourceNotFoundException("Spot not found for this id :: " + spotId));
 
-    spot.setReserved(spotDetails.getReserved());
+    //otetaan frontista currentuser ja haetaan sillä kannasta username ja tallennetaan spottiin
+    //jatkokehityksenä voisi kaikki tiedot hakea controllerin sisällä securitystä.
+    //myös onko premium voisi hake vaan id:n perusteella kannasta niin kukaa ei pääse sörkkimään
+    spot.setReserved(true);
     spot.setPremium(spotDetails.getPremium());
-    spot.setSpotusername(spotDetails.getSpotusername());
+    spot.setSpotuser(urepository.findByUsername(spotDetails.getSpotuser().getUsername()));
     final Spot updatedSpot = srepository.save(spot);
     return ResponseEntity.ok(updatedSpot);
 }
@@ -90,11 +96,10 @@ public ResponseEntity<Spot> delSpot(@PathVariable(value = "id") Long spotId,
     .orElseThrow(() -> new ResourceNotFoundException("Spot not found for this id :: " + spotId));
 
     spot.setReserved(false);
-    spot.setSpotusername(null);
+    spot.setSpotuser(null);
     final Spot updatedSpot = srepository.save(spot);
     return ResponseEntity.ok(updatedSpot);
 }
-
 
 
 } 
