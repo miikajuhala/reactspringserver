@@ -48,7 +48,7 @@ private SpotRepository srepository;
 public @ResponseBody List<User> Rest() {	
     return urepository.findAll(); 
 }  
-//tähän vielä security muutos että ei palauta usenameja clientiin
+
 @RequestMapping(value="/spots", method = RequestMethod.GET)
 public @ResponseBody List<Spot> RestSpot() {	
     return srepository.findAll(); 
@@ -61,7 +61,7 @@ public @ResponseBody List<Spot> RestMySpots(@PathVariable("username") String use
 }  
 
 
-
+//Lisää uudet parkkipaikan 
 @PostMapping(value="/spots/add")
 public ResponseEntity<Spot> create(@RequestBody Spot newSpot) throws ServerException {
     Spot spot = srepository.save(newSpot);
