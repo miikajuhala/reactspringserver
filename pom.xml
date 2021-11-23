@@ -92,10 +92,7 @@
 							</excludes>
 						</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-			</plugin>
+			
 			
 			
 <plugin>
@@ -107,7 +104,7 @@
         <installDirectory>target</installDirectory>
     </configuration>
     <executions>
-        <execution>
+        <execution> 
             <id>install node and npm</id>
             <goals>
                 <goal>install-node-and-npm</goal>
