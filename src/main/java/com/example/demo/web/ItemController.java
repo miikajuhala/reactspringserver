@@ -74,17 +74,8 @@ public class ItemController {
      return "signup";
  }
 
-//haetaan väliaikasesti rooli tällä tavalla, tokenin muokkauksen jälkeen onnistuu sieltä suoraan
-@Controller
-public class SecurityController {
 
-    @RequestMapping(value = "/role", method = RequestMethod.GET)
-    @ResponseBody
-    public String currentUserName(Authentication auth) {
-     User user = urepository.findByUsername(auth.getName());
-     return user.getRole();
-    }
-}
+
  
  
 	
