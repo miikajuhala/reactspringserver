@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 
@@ -58,11 +59,11 @@ public class ItemController {
 	 
 	 user.setPasswordHash(newpass);
 	 System.out.println("HASHATTY PASSWORDI"+newpass);
-	 
+	  
   urepository.save(user);  
-  System.out.println(user.toString());
+  System.out.println(user.toString()); 
   
-  return "redirect:loginpage";
+  return "loginpage";
  }
  
 
@@ -73,13 +74,15 @@ public class ItemController {
      return "signup";
  }
 
+//haetaan väliaikasesti rooli tällä tavalla, tokenin muokkauksen jälkeen onnistuu sieltä suoraan
 @Controller
 public class SecurityController {
 
-    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @RequestMapping(value = "/role", method = RequestMethod.GET)
     @ResponseBody
-    public String currentUserName(Principal principal) {
-     return principal.getName();
+    public String currentUserName(Authentication auth) {
+     User user = urepository.findByUsername(auth.getName());
+     return user.getRole();
     }
 }
  

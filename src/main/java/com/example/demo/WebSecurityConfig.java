@@ -43,11 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
      http.csrf().disable().cors().and().authorizeRequests()
-      .antMatchers(HttpMethod.POST, "/login").permitAll()
-      // TÄMÄ PITÄÄ MUOKATA LOPUKSI NIIN ETTEI KÄYTTÄJIÄ (USERS TAI MAKERS) PÄÄSE HAKEMAAN
-      .antMatchers(HttpMethod.GET, "/api", "/api/**").permitAll()
+      .antMatchers(HttpMethod.POST, "/login","/loginpage","/api/register").permitAll()
+      .antMatchers(HttpMethod.GET, "/api", "/api/**","/role","/loginpage","/saveuser","/signup").permitAll()
+      .antMatchers(HttpMethod.PUT, "/api", "/api/**").permitAll()
      // .antMatchers(HttpMethod.GET, "api/spots", "api/users**").hasRole("admin")
-      .antMatchers(HttpMethod.POST, "/api/spots/add").authenticated()
+      .antMatchers(HttpMethod.POST, "/api/spots/add","/saveuser","/api/admin/newuser").authenticated()
+      .antMatchers(HttpMethod.DELETE, "/api/spots/delete/*").permitAll()
           .anyRequest().authenticated()
           .and()
           // Filter for the api/login requests
@@ -72,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
         config.setAllowedMethods(Arrays.asList("*"));
-        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedHeaders(Arrays.asList("*")); 
         config.setAllowCredentials(true);
         config.applyPermitDefaultValues();
         

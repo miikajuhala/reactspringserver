@@ -39,7 +39,7 @@ public class AuthenticationService {
 
 	      if (user != null) 
 	        return new UsernamePasswordAuthenticationToken(user, null,
-	        	Collections.emptyList()); // TÄSTÄ VOI TULLA ONGELMA, TARKISTA ENSIKSI JOS EI TOIMI
+	        	Collections.emptyList()); 
 	    }
 	    return null;
 	  }
